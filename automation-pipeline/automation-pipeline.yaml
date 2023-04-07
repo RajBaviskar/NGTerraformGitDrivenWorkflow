@@ -1,0 +1,54 @@
+pipeline:
+  projectIdentifier: rajTest
+  orgIdentifier: default
+  tags: {}
+  stages:
+    - stage:
+        name: TF
+        identifier: TFPlan
+        description: ""
+        type: Custom
+        spec:
+          execution:
+            steps:
+              - step:
+                  type: TerraformPlan
+                  name: Terraform Plan_1
+                  identifier: TerraformPlan_1
+                  spec:
+                    configuration:
+                      command: Apply
+                      configFiles:
+                        store:
+                          type: Github
+                          spec:
+                            gitFetchType: Branch
+                            connectorRef: account.rajNGTerraformGitExperience
+                            branch: main
+                            folderPath: modules/
+                      secretManagerRef: harnessSecretManager
+                      varFiles:
+                        - varFile:
+                            spec:
+                              content: org="<+pipeline.variables.org>"
+                            identifier: input
+                            type: Inline
+                    provisionerIdentifier: <+pipeline.triggerType>
+                  timeout: 10m
+              - step:
+                  type: TerraformApply
+                  name: Terraform Apply_1
+                  identifier: TerraformApply_1
+                  spec:
+                    configuration:
+                      type: InheritFromPlan
+                    provisionerIdentifier: <+pipeline.triggerType>
+                  timeout: 10m
+        tags: {}
+        when:
+          pipelineStatus: All
+  delegateSelectors:
+    - terraformdelegate
+  variables: []
+  identifier: NGTerraformGitDrivenWorkflow
+  name: NGTerraformGitDrivenWorkflow
