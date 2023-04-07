@@ -8,16 +8,16 @@ terraform {
 
 provider "harness" {
   endpoint         = "https://app.harness.io/gateway"
-  account_id       = "YOUR ACCOUNT ID"
-  platform_api_key = "YOUR KEY"
+  account_id       = "UKh5Yts7THSMAbccG3HrLA"
+  platform_api_key = "pat.UKh5Yts7THSMAbccG3HrLA.631ad184015b135d5052742a.VsueShc2p2xD3abapFQG"
 }
 
 # add organizations
 
-module "DefaultOrg" {
-  source = "./DefaultOrg"
-  org    = "DefaultOrg"
-}
+# module "DefaultOrg" {
+#   source = "./DefaultOrg"
+#   org    = "DefaultOrg"
+# }
 
 module "AirlineOperationsOrg" {
   source = "./AirlineOperationsOrg"
